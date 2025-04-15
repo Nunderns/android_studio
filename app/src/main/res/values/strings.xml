@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Social App</string>
+    <string name="hint_nome">Nome</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_senha">Senha</string>
+    <string name="registrar">Registrar</string>
+    <string name="entrar">Entrar</string>
+
+</resources>
