@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#FFFFFF">
+
+    <EditText
+        android:id="@+id/editConteudo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="O que está acontecendo?"
+        android:textColor="#000000"
+        android:minHeight="100dp"
+        android:gravity="top"
+        android:background="@android:drawable/editbox_background" />
+
+    <Button
+        android:id="@+id/btnPublicar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Publicar"
+        android:layout_marginTop="24dp"
+        android:minHeight="48dp"/>
+</LinearLayout>

@@ -1,24 +1,45 @@
 package com.example.socialapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerPosts;
+    private FloatingActionButton btnNovoPost;
+    private List<Post> postList;
+    private PostAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_feed); // TROCAR AQUI para o layout certo
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.feed), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        setContentView(R.layout.activity_feed);
+
+        recyclerPosts = findViewById(R.id.recyclerPosts);
+        btnNovoPost = findViewById(R.id.btnNovoPost);
+
+        // Configurar RecyclerView
+        recyclerPosts.setLayoutManager(new LinearLayoutManager(this));
+        postList = new ArrayList<>();
+        adapter = new PostAdapter(this, postList);
+        recyclerPosts.setAdapter(adapter);
+
+        // Clique no botão de novo post
+        btnNovoPost.setOnClickListener(v -> {
+            // Aqui você pode abrir a tela de Criar Post
+            Intent intent = new Intent(this, CreatePostActivity.class);
+            startActivity(intent);
         });
     }
 }

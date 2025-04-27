@@ -25,6 +25,8 @@
         <activity android:name=".FeedActivity" />
 
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".CreatePostActivity" />
+
 
     </application>
 
