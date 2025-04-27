@@ -4,9 +4,9 @@ public class Post {
     public String autor;
     public String conteudo;
     public int imagemResId;
-    private int comentarios;
-    private int curtidas;
-    private int favoritos;
+    public int comentarios;
+    public int curtidas;
+    public int favoritos;
 
     public Post(String autor, String conteudo, int imagemResId, int comentarios, int curtidas, int favoritos) {
         this.autor = autor;
@@ -17,9 +17,17 @@ public class Post {
         this.favoritos = favoritos;
     }
 
-    // Getters
+    // Getters que estavam faltando
+    public String getAutor() {
+        return autor;
+    }
+
     public String getConteudo() {
         return conteudo;
+    }
+
+    public int getImagemResId() {
+        return imagemResId;
     }
 
     public int getComentarios() {

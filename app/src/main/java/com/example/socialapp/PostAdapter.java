@@ -52,7 +52,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         // Aqui sim colocamos o click no lugar certo:
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PostDetailActivity.class);
+            intent.putExtra("autor", post.getAutor());
             intent.putExtra("conteudo", post.getConteudo());
+            intent.putExtra("imagemResId", post.getImagemResId());
             intent.putExtra("comentarios", post.getComentarios());
             intent.putExtra("curtidas", post.getCurtidas());
             intent.putExtra("favoritos", post.getFavoritos());

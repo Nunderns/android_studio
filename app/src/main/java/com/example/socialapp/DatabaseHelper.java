@@ -1,8 +1,13 @@
 package com.example.socialapp;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -40,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "idUsuario1 INTEGER," +
                 "idUsuario2 INTEGER," +
-                "status TEXT," +  // exemplo: 'pendente', 'aceita'
+                "status TEXT," +
                 "FOREIGN KEY(idUsuario1) REFERENCES usuarios(id)," +
                 "FOREIGN KEY(idUsuario2) REFERENCES usuarios(id)" +
                 ");");
@@ -74,5 +79,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS postagens");
         db.execSQL("DROP TABLE IF EXISTS usuarios");
         onCreate(db);
+    }
+
+    // Função para inserir um post novo
+    public void inserirPost(int idUsuario, String conteudo, String imagem, String data) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("idUsuario", idUsuario);
+        values.put("conteudo", conteudo);
+        values.put("imagem", imagem);
+        values.put("data", data);
+        db.insert("postagens", null, values);
+        db.close();
+    }
+
+    // Função para buscar todos os posts (Feed)
+    public List<Post> buscarTodosPosts() {
+        List<Post> postList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT p.id, u.nome, p.conteudo, p.imagem, p.data " +
+                "FROM postagens p INNER JOIN usuarios u ON p.idUsuario = u.id " +
+                "ORDER BY p.id DESC", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Post post = new Post(
+                        cursor.getString(cursor.getColumnIndexOrThrow("nome")),   // Nome do autor
+                        cursor.getString(cursor.getColumnIndexOrThrow("conteudo")),
+                        R.drawable.ic_launcher_background, // imagem genérica ou carregar imagem real depois
+                        0,  // Comentários (pode implementar depois)
+                        0,  // Curtidas (pode implementar depois)
+                        0   // Favoritos (pode implementar depois)
+                );
+                postList.add(post);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return postList;
     }
 }
