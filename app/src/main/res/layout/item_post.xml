@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@android:color/white"
     android:padding="12dp"
-    android:marginBottom="8dp"
+    android:layout_marginBottom="8dp"
     android:elevation="2dp">
 
     <!-- Texto principal do post -->
@@ -17,6 +17,26 @@
         android:textSize="16sp"
         android:textColor="#000000"
         android:layout_marginBottom="12dp"/>
+
+    <!-- Autor do post -->
+    <TextView
+        android:id="@+id/txtAutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Autor do Post"
+        android:textSize="14sp"
+        android:textColor="#555555"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Imagem do post -->
+    <!-- Imagem exemplo, você pode trocar depois -->
+    <ImageView
+        android:id="@+id/imgPost"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_marginBottom="12dp" />
 
     <!-- Área dos ícones: comentários, curtidas e favoritos -->
     <LinearLayout
