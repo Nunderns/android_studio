@@ -1,27 +1,24 @@
 package com.example.socialapp;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class FeedActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerFeed);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        ArrayList<Post> posts = new ArrayList<>();
-        posts.add(new Post("João", "Olá, este é meu primeiro post!", R.drawable.ic_launcher_foreground));
-        posts.add(new Post("Maria", "Adoro esse app!", R.drawable.ic_launcher_foreground));
-
-        PostAdapter adapter = new PostAdapter(posts);
-        recyclerView.setAdapter(adapter);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_feed); // TROCAR AQUI para o layout certo
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.feed), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 }

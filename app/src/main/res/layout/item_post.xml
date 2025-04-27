@@ -2,33 +2,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="12dp">
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:padding="12dp"
+    android:marginBottom="8dp"
+    android:elevation="2dp">
 
-    <ImageView
-        android:id="@+id/imgPost"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:layout_marginEnd="12dp" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
+    <!-- Texto principal do post -->
+    <TextView
+        android:id="@+id/textConteudo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:text="Conteúdo do post"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:layout_marginBottom="12dp"/>
 
-        <TextView
-            android:id="@+id/txtAutor"
-            android:textStyle="bold"
-            android:text="Autor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <!-- Área dos ícones: comentários, curtidas e favoritos -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start">
 
+        <!-- Comentários -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_dialog_email" />
         <TextView
-            android:id="@+id/txtConteudo"
-            android:text="Conteúdo do post"
+            android:id="@+id/textComentarios"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
+            android:textColor="#000000"/>
+
+        <!-- Curtidas -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/btn_star_big_on" />
+        <TextView
+            android:id="@+id/textCurtidas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
+            android:textColor="#000000"/>
+
+        <!-- Favoritos -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_save" />
+        <TextView
+            android:id="@+id/textFavoritos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginStart="4dp"
+            android:textColor="#000000"/>
     </LinearLayout>
 </LinearLayout>
