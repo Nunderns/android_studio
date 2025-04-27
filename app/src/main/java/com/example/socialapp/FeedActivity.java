@@ -2,7 +2,8 @@ package com.example.socialapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.widget.Toast;
+import java.util.ArrayList;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,13 +42,22 @@ public class FeedActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_CODE_NOVO_POST);
         });
     }
-
-    // Método para carregar posts do banco
     private void carregarPostsDoBanco() {
-        postList = dbHelper.buscarTodosPosts(); // Buscar todos os posts do banco
-        adapter = new PostAdapter(this, postList);
-        recyclerPosts.setAdapter(adapter);
+        try {
+            postList = dbHelper.buscarTodosPosts(); // Buscar todos os posts do banco
+            adapter = new PostAdapter(this, postList);
+            recyclerPosts.setAdapter(adapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Erro ao carregar posts!", Toast.LENGTH_SHORT).show();
+
+            // Garante que o RecyclerView ainda funcione vazio
+            postList = new ArrayList<>();
+            adapter = new PostAdapter(this, postList);
+            recyclerPosts.setAdapter(adapter);
+        }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

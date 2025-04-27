@@ -6,4 +6,20 @@
     <string name="registrar">Registrar</string>
     <string name="entrar">Entrar</string>
 
+    <!-- Layout Detalhado -->
+    <string name="autor">Autor</string>
+    <string name="conteudo_do_post">Conteúdo do post</string>
+    <string name="descricao_imagem_post">Imagem do post</string>
+    <string name="descricao_mais_opcoes">Mais opções</string>
+    <string name="comentarios">0 comentários</string>
+    <string name="curtidas">0 curtidas</string>
+    <string name="favoritos">0 favoritos</string>
+
+    <!-- Mensagens -->
+    <string name="confirmar_exclusao">Tem certeza que deseja excluir este post?</string>
+    <string name="excluir">Excluir</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="excluido_sucesso">Post excluído com sucesso!</string>
+    <string name="erro_excluir">Erro ao excluir o post.</string>
+
 </resources>

@@ -1,14 +1,19 @@
 package com.example.socialapp;
 
 public class Post {
-    public String autor;
-    public String conteudo;
-    public int imagemResId;
-    public int comentarios;
-    public int curtidas;
-    public int favoritos;
+    private int id;           // ID do post
+    private int idUsuario;    // ID do usuário que criou o post
+    private String autor;
+    private String conteudo;
+    private int imagemResId;
+    private int comentarios;
+    private int curtidas;
+    private int favoritos;
 
-    public Post(String autor, String conteudo, int imagemResId, int comentarios, int curtidas, int favoritos) {
+    // Construtor atualizado
+    public Post(int id, int idUsuario, String autor, String conteudo, int imagemResId, int comentarios, int curtidas, int favoritos) {
+        this.id = id;
+        this.idUsuario = idUsuario;
         this.autor = autor;
         this.conteudo = conteudo;
         this.imagemResId = imagemResId;
@@ -17,7 +22,15 @@ public class Post {
         this.favoritos = favoritos;
     }
 
-    // Getters que estavam faltando
+    // Getters
+    public int getId() {
+        return id;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
     public String getAutor() {
         return autor;
     }

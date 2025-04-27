@@ -45,9 +45,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
-        holder.txtAutor.setText(post.autor);
-        holder.txtConteudo.setText(post.conteudo);
-        holder.imgPost.setImageResource(post.imagemResId);
+        holder.txtAutor.setText(post.getAutor());
+        holder.txtConteudo.setText(post.getConteudo());
+        holder.imgPost.setImageResource(post.getImagemResId());
 
         // Aqui sim colocamos o click no lugar certo:
         holder.itemView.setOnClickListener(v -> {
@@ -58,6 +58,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             intent.putExtra("comentarios", post.getComentarios());
             intent.putExtra("curtidas", post.getCurtidas());
             intent.putExtra("favoritos", post.getFavoritos());
+            intent.putExtra("idPost", post.getId());
+            intent.putExtra("idUsuario", post.getIdUsuario());
             context.startActivity(intent);
         });
     }

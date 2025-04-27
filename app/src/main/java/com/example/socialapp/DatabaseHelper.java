@@ -81,6 +81,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void excluirPost(int idPost) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("postagens", "id = ?", new String[]{String.valueOf(idPost)});
+        db.close();
+    }
+
+
     // Função para inserir um post novo
     public void inserirPost(int idUsuario, String conteudo, String imagem, String data) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -97,19 +104,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Post> buscarTodosPosts() {
         List<Post> postList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT p.id, u.nome, p.conteudo, p.imagem, p.data " +
-                "FROM postagens p INNER JOIN usuarios u ON p.idUsuario = u.id " +
-                "ORDER BY p.id DESC", null);
+
+        Cursor cursor = db.rawQuery(
+                "SELECT p.id, p.idUsuario, u.nome, p.conteudo, p.imagem, p.data " +
+                        "FROM postagens p " +
+                        "INNER JOIN usuarios u ON p.idUsuario = u.id " +
+                        "ORDER BY p.id DESC",
+                null
+        );
 
         if (cursor.moveToFirst()) {
             do {
                 Post post = new Post(
-                        cursor.getString(cursor.getColumnIndexOrThrow("nome")),   // Nome do autor
-                        cursor.getString(cursor.getColumnIndexOrThrow("conteudo")),
-                        R.drawable.ic_launcher_background, // imagem genérica ou carregar imagem real depois
-                        0,  // Comentários (pode implementar depois)
-                        0,  // Curtidas (pode implementar depois)
-                        0   // Favoritos (pode implementar depois)
+                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),            // ID do post
+                        cursor.getInt(cursor.getColumnIndexOrThrow("idUsuario")),      // ID do usuário que postou
+                        cursor.getString(cursor.getColumnIndexOrThrow("nome")),        // Nome do autor
+                        cursor.getString(cursor.getColumnIndexOrThrow("conteudo")),    // Conteúdo do post
+                        R.drawable.ic_launcher_background,                            // Imagem (você pode trocar depois)
+                        0, // Comentários (não estamos buscando ainda)
+                        0, // Curtidas
+                        0  // Favoritos
                 );
                 postList.add(post);
             } while (cursor.moveToNext());
@@ -119,4 +133,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return postList;
     }
+
 }
