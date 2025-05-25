@@ -22,4 +22,12 @@
     <string name="excluido_sucesso">Post excluído com sucesso!</string>
     <string name="erro_excluir">Erro ao excluir o post.</string>
 
+    <string name="nav_home">Início</string>
+    <string name="nav_search">Buscar</string>
+    <string name="nav_users">Amigos</string>
+    <string name="nav_notifications">Notificações</string>
+
+    <string name="lista_de_posts">Lista de posts</string>
+    <string name="novo_post_desc">Criar novo post</string>
+
 </resources>

@@ -12,21 +12,32 @@
         android:id="@+id/recyclerPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigationView"
         android:padding="8dp"
         android:clipToPadding="false"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:contentDescription="@string/lista_de_posts" />
 
-    <!-- Botão azul para criação de novo post -->
+    <!-- Bottom Navigation View fixo -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/menu_bottom_nav"
+        app:itemIconTint="@color/selector_bottom_nav"
+        app:itemTextColor="@color/selector_bottom_nav" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNovoPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
-        android:contentDescription="Novo Post"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@android:color/holo_blue_light" />
-
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/bottomNavigationView"
+        android:contentDescription="@string/novo_post_desc"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@android:color/holo_blue_dark" />
 
 </RelativeLayout>
