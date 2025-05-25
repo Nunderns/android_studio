@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- AppBar com SearchView -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Buscar"
+            android:background="@android:color/transparent"
+            android:iconifiedByDefault="false"
+            android:contentDescription="@string/search_hint" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Tabs -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="@android:color/holo_blue_dark"
+        app:tabSelectedTextColor="@android:color/holo_blue_dark"
+        app:tabTextColor="@android:color/darker_gray"
+        android:contentDescription="@string/tab_navigation_desc"
+        app:layout_scrollFlags="scroll|enterAlways"/>
+
+    <!-- Lista de tendências -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerTrends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:contentDescription="@string/trends_list_desc" />
+
+    <!-- Botão flutuante -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCompose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_edit"
+        android:contentDescription="@string/fab_compose_desc"
+        app:backgroundTint="@android:color/holo_blue_dark" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

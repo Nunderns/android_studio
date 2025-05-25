@@ -29,5 +29,11 @@
 
     <string name="lista_de_posts">Lista de posts</string>
     <string name="novo_post_desc">Criar novo post</string>
+    <string name="tab_navigation_desc">Navegação por abas</string>
+    <string name="trends_list_desc">Lista de tendências</string>
+
+    <string name="search_hint">Buscar</string>
+    <string name="fab_compose_desc">Criar novo post</string>
+
 
 </resources>

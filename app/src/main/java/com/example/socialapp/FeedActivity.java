@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -41,6 +42,19 @@ public class FeedActivity extends AppCompatActivity {
         btnNovoPost.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreatePostActivity.class);
             startActivityForResult(intent, REQUEST_CODE_NOVO_POST);
+        });
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                return true;
+            } else if (id == R.id.nav_search) {
+                startActivity(new Intent(this, SearchActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
         });
     }
 
