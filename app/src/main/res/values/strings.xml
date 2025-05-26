@@ -34,6 +34,9 @@
 
     <string name="search_hint">Buscar</string>
     <string name="fab_compose_desc">Criar novo post</string>
+    <string name="action_logout">Sair da conta</string>
+    <string name="user_avatar">Avatar do usuário</string>
+    <string name="menu_options">Mais opções</string>
 
 
 </resources>

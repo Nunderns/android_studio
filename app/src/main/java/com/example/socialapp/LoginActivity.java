@@ -1,6 +1,7 @@
 package com.example.socialapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
@@ -19,21 +20,26 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Inicializa o banco de dados
         dbHelper = new DatabaseHelper(this);
 
-        // Liga as views
         editEmail = findViewById(R.id.editEmail);
         editSenha = findViewById(R.id.editSenha);
         btnLogin = findViewById(R.id.btnLogin);
         btnCriarConta = findViewById(R.id.btnCriarConta);
 
-        // Ação do botão de login
         btnLogin.setOnClickListener(v -> {
             String email = editEmail.getText().toString().trim();
             String senha = editSenha.getText().toString().trim();
 
-            if (loginValido(email, senha)) {
+            int userId = obterIdUsuario(email, senha);
+
+            if (userId != -1) {
+                // Salva ID do usuário logado
+                SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("user_id", userId);
+                editor.apply();
+
                 Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, FeedActivity.class));
             } else {
@@ -41,22 +47,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Ação do botão de criar conta
         btnCriarConta.setOnClickListener(v -> {
             startActivity(new Intent(this, RegisterActivity.class));
         });
     }
 
-    // Método para validar login no banco
-    private boolean loginValido(String email, String senha) {
+    // Busca o ID do usuário logado
+    private int obterIdUsuario(String email, String senha) {
         Cursor cursor = dbHelper.getReadableDatabase().rawQuery(
-                "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
+                "SELECT id FROM usuarios WHERE email = ? AND senha = ?",
                 new String[]{email, senha}
         );
 
-        boolean loginOk = (cursor.getCount() > 0);
+        int userId = -1;
+        if (cursor.moveToFirst()) {
+            userId = cursor.getInt(0); // coluna "id"
+        }
         cursor.close();
-
-        return loginOk;
+        return userId;
     }
 }

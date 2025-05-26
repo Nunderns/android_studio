@@ -9,6 +9,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.content.SharedPreferences;
+import com.example.socialapp.Post;
+import com.example.socialapp.PostAdapter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,10 +36,32 @@ public class FeedActivity extends AppCompatActivity {
     private PostAdapter adapter;
     private DatabaseHelper dbHelper;
 
+    private void showPopupMenu(View view) {
+    PopupMenu popupMenu = new PopupMenu(this, view);
+    popupMenu.getMenuInflater().inflate(R.menu.topbar_menu, popupMenu.getMenu());
+    popupMenu.setOnMenuItemClickListener(item -> {
+        if (item.getItemId() == R.id.action_logout) {
+            Toast.makeText(this, "Saindo da conta...", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            return true;
+        }
+        return false;
+    });
+    popupMenu.show();
+}
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+        setContentView(R.layout.activity_feed); // DEVE vir antes
+
+        ImageView menuIcon = findViewById(R.id.menuIcon); // Agora sim
+        menuIcon.setOnClickListener(v -> showPopupMenu(v));
 
         dbHelper = new DatabaseHelper(this);
 
@@ -81,17 +114,24 @@ public class FeedActivity extends AppCompatActivity {
             String conteudo = data.getStringExtra("conteudo");
 
             if (conteudo != null && !conteudo.isEmpty()) {
-                // Inserir o novo post no banco
-                int idUsuario = 1;
+                // Recupera o ID do usuário logado via SharedPreferences
+                SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+                int idUsuario = prefs.getInt("user_id", -1); // ✅ Aqui está certo agora
+
+                if (idUsuario == -1) {
+                    Toast.makeText(this, "Erro: usuário não está logado.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 String imagem = null;
-                String dataAtual = "2025-04-27";
+                String dataAtual = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
                 dbHelper.inserirPost(idUsuario, conteudo, imagem, dataAtual);
-
                 carregarPostsDoBanco();
             }
         }
     }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -111,5 +151,28 @@ public class FeedActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.topbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            // Aqui você pode fazer logout real (ex: FirebaseAuth.getInstance().signOut())
+            Toast.makeText(this, "Saindo da conta...", Toast.LENGTH_SHORT).show();
+
+            // Por exemplo, redirecionar para LoginActivity
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

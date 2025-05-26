@@ -1,43 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/feed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:padding="0dp">
+    android:background="#FFFFFF">
 
-    <!-- RecyclerView para listar os posts -->
+    <!-- Topbar com padding -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_alignParentTop="true">
+
+        <!-- Avatar -->
+        <ImageView
+            android:id="@+id/userAvatar"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_user_avatar"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/user_avatar" />
+
+        <!-- Título centralizado -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="X"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#000000" />
+
+        <!-- Menu de 3 pontos -->
+        <ImageView
+            android:id="@+id/menuIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_more_vert"
+            android:contentDescription="@string/menu_options"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <!-- Lista de posts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/topBar"
         android:layout_above="@id/bottomNavigationView"
         android:padding="8dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"
         android:contentDescription="@string/lista_de_posts" />
 
-    <!-- Bottom Navigation View fixo -->
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
         app:menu="@menu/menu_bottom_nav"
         app:itemIconTint="@color/selector_bottom_nav"
-        app:itemTextColor="@color/selector_bottom_nav" />
+        app:itemTextColor="@color/selector_bottom_nav"
+        android:background="?android:attr/windowBackground" />
 
+    <!-- Botão flutuante -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNovoPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_alignParentEnd="true"
         android:layout_above="@id/bottomNavigationView"
-        android:contentDescription="@string/novo_post_desc"
+        android:layout_margin="16dp"
         android:src="@drawable/ic_add"
+        android:contentDescription="@string/novo_post_desc"
         app:backgroundTint="@android:color/holo_blue_dark" />
 
 </RelativeLayout>
