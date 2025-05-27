@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -7,27 +8,55 @@
     android:gravity="center"
     android:background="#FFFFFF">
 
-    <EditText
-        android:id="@+id/editEmail"
-        android:hint="@string/hint_email"
-        android:inputType="textEmailAddress"
-        android:textColor="#000000"
-        android:autofillHints="emailAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:layout_marginBottom="12dp"/>
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"/>
 
-    <EditText
-        android:id="@+id/editSenha"
-        android:hint="@string/hint_senha"
-        android:inputType="textPassword"
-        android:textColor="#000000"
-        android:autofillHints="password"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="12dp"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editEmail"
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress"
+            android:textColor="#000000"
+            android:autofillHints="emailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editSenha"
+            android:hint="@string/hint_senha"
+            android:inputType="textPassword"
+            android:textColor="#000000"
+            android:autofillHints="password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnLogin"
@@ -35,12 +64,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#1976D2"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-medium"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_button"/>
 
     <Button
         android:id="@+id/btnCriarConta"
         android:text="Criar Conta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"/>
+        android:minHeight="48dp"
+        android:backgroundTint="#E3E3E3"
+        android:textColor="#1976D2"
+        android:fontFamily="sans-serif-medium"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_button_outline"/>
 </LinearLayout>
