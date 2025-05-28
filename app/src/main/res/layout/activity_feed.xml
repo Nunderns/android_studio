@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- Topbar com padding -->
+    <!-- Topbar com fundo, sombra e padding -->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -14,16 +14,20 @@
         android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="#F5F5F5"
+        android:elevation="4dp">
 
         <!-- Avatar -->
         <ImageView
             android:id="@+id/userAvatar"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/ic_user_avatar"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/user_avatar" />
+            android:contentDescription="@string/user_avatar"
+            android:background="@drawable/rounded_button_outline"
+            android:padding="2dp" />
 
         <!-- Título centralizado -->
         <TextView
@@ -32,20 +36,22 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="X"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="#000000" />
+            android:textColor="#1976D2"
+            android:fontFamily="sans-serif-medium" />
 
         <!-- Menu de 3 pontos -->
         <ImageView
             android:id="@+id/menuIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/ic_more_vert"
             android:contentDescription="@string/menu_options"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:padding="2dp" />
     </LinearLayout>
 
     <!-- Lista de posts -->
@@ -60,7 +66,7 @@
         android:scrollbars="vertical"
         android:contentDescription="@string/lista_de_posts" />
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation destacado -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
@@ -69,18 +75,20 @@
         app:menu="@menu/menu_bottom_nav"
         app:itemIconTint="@color/selector_bottom_nav"
         app:itemTextColor="@color/selector_bottom_nav"
-        android:background="?android:attr/windowBackground" />
+        android:background="#F5F5F5"
+        android:elevation="8dp" />
 
-    <!-- Botão flutuante -->
+    <!-- Botão flutuante com sombra -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNovoPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_above="@id/bottomNavigationView"
-        android:layout_margin="16dp"
+        android:layout_margin="20dp"
         android:src="@drawable/ic_add"
         android:contentDescription="@string/novo_post_desc"
-        app:backgroundTint="@android:color/holo_blue_dark" />
+        app:backgroundTint="#1976D2"
+        app:elevation="8dp" />
 
 </RelativeLayout>
