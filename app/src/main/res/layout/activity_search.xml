@@ -2,56 +2,62 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
-    <!-- AppBar com SearchView -->
+    <!-- AppBar com SearchView e TabLayout -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:background="#F5F5F5"
+        android:elevation="4dp">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="12dp"
             android:queryHint="Buscar"
-            android:background="@android:color/transparent"
             android:iconifiedByDefault="false"
+            android:background="@android:color/transparent"
+            android:elevation="2dp"
             android:contentDescription="@string/search_hint" />
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Tabs -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="@android:color/holo_blue_dark"
-        app:tabSelectedTextColor="@android:color/holo_blue_dark"
-        app:tabTextColor="@android:color/darker_gray"
-        android:contentDescription="@string/tab_navigation_desc"
-        app:layout_scrollFlags="scroll|enterAlways"/>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5"
+            app:tabIndicatorColor="#1976D2"
+            app:tabSelectedTextColor="#1976D2"
+            app:tabTextColor="#757575"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorFullWidth="false"
+            android:layout_marginBottom="4dp"
+            android:contentDescription="@string/tab_navigation_desc" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Lista de tendências -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerTrends"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:padding="8dp"
+        android:padding="16dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"
-        android:contentDescription="@string/trends_list_desc" />
+        android:contentDescription="@string/trends_list_desc"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <!-- Botão flutuante -->
+    <!-- Botão flutuante para nova ação -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCompose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_margin="20dp"
         android:src="@drawable/ic_edit"
         android:contentDescription="@string/fab_compose_desc"
-        app:backgroundTint="@android:color/holo_blue_dark" />
-
+        app:backgroundTint="#1976D2"
+        app:elevation="6dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
