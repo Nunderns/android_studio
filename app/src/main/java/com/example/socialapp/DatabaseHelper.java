@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.socialapp.User;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "socialapp.db";
@@ -316,6 +318,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return userId;
+    }
+
+    // Método para buscar a lista de amigos de um usuário
+    public List<User> buscarAmigosDoUsuario(int idUsuario) {
+        List<User> amigosList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Consulta para buscar usuários que são amigos do idUsuario
+        // Busca em idUsuario1 ou idUsuario2 onde o status é 'aceito'
+        String query = "SELECT u.id, u.nome, u.fotoPerfil FROM usuarios u " +
+                       "INNER JOIN amizades a ON " +
+                       "(a.idUsuario1 = u.id OR a.idUsuario2 = u.id) " +
+                       "WHERE (a.idUsuario1 = ? OR a.idUsuario2 = ?) " +
+                       "AND a.status = 'aceito' AND u.id != ?"; // Exclui o próprio usuário
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(idUsuario), String.valueOf(idUsuario), String.valueOf(idUsuario)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                // Crie um objeto User para cada amigo encontrado
+                User amigo = new User(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("nome")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("fotoPerfil")) // Ou use um resource ID padrão
+                );
+                amigosList.add(amigo);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return amigosList;
     }
 
 }

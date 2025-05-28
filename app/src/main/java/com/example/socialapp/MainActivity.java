@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new FeedFragment();
             } else if (id == R.id.nav_search) {
                 selectedFragment = new SearchFragment();
+            } else if (id == R.id.nav_friends) {
+                selectedFragment = new FriendsFragment();
             }
 
             if (selectedFragment != null) {

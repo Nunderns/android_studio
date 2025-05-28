@@ -26,6 +26,7 @@
     <string name="nav_search">Buscar</string>
     <string name="nav_users">Amigos</string>
     <string name="nav_notifications">Notificações</string>
+    <string name="friends_list">Lista de amigos</string>
 
     <string name="lista_de_posts">Lista de posts</string>
     <string name="novo_post_desc">Criar novo post</string>
