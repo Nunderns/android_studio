@@ -41,5 +41,6 @@
     <string name="comentar">Comentar</string>
     <string name="curtir">Curtir</string>
     <string name="favoritar">Favoritar</string>
+    <string name="search_results_list">Lista de resultados da busca</string>
 
 </resources>
