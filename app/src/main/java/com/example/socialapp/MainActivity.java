@@ -1,5 +1,6 @@
 package com.example.socialapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -14,12 +15,13 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView nav = findViewById(R.id.bottomNavigationView);
 
-        // Exibir fragmento inicial
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new FeedFragment())
-                .commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new FeedFragment())
+                    .commit();
+        }
 
-        nav.setOnNavigationItemSelectedListener(item -> {
+        nav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
             int id = item.getItemId();
@@ -28,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.nav_search) {
                 selectedFragment = new SearchFragment();
             }
-
 
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()

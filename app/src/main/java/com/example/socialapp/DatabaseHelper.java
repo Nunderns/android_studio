@@ -305,4 +305,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    // Método para verificar o login do usuário
+    public int verificarLogin(String email, String senha) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id FROM usuarios WHERE email = ? AND senha = ?", new String[]{email, senha});
+        int userId = -1;
+        if (cursor.moveToFirst()) {
+            userId = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return userId;
+    }
+
 }

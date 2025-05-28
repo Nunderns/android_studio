@@ -1,7 +1,8 @@
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText emailField, passwordField;
-    private Button loginButton;
+    private EditText editEmail;
+    private EditText editSenha;
+    private Button btnLogin;
     private FirebaseAuth auth;
 
     @Override
@@ -10,13 +11,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         auth = FirebaseAuth.getInstance();
-        emailField = findViewById(R.id.email);
-        passwordField = findViewById(R.id.password);
-        loginButton = findViewById(R.id.btnLogin);
+        editEmail = findViewById(R.id.editEmail);
+        editSenha = findViewById(R.id.editSenha);
+        btnLogin = findViewById(R.id.btnLogin);
 
-        loginButton.setOnClickListener(v -> {
-            String email = emailField.getText().toString();
-            String senha = passwordField.getText().toString();
+        btnLogin.setOnClickListener(v -> {
+            String email = editEmail.getText().toString();
+            String senha = editSenha.getText().toString();
 
             auth.signInWithEmailAndPassword(email, senha)
                     .addOnCompleteListener(task -> {
