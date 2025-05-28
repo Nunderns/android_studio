@@ -67,12 +67,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="start">
+            android:gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_dialog_email"/>
+            <!-- Comentário -->
+            <ImageButton
+                android:id="@+id/btnComentar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/comentar"
+                android:src="@drawable/ic_comment"
+                android:tint="#1976D2" />
             <TextView
                 android:id="@+id/textComentarios"
                 android:layout_width="wrap_content"
@@ -82,10 +87,15 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="4dp"/>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/btn_star_big_off"/>
+            <!-- Curtida -->
+            <ImageButton
+                android:id="@+id/btnCurtir"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_like"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/curtir"
+                android:tint="#E53935"/>
             <TextView
                 android:id="@+id/textCurtidas"
                 android:layout_width="wrap_content"
@@ -95,10 +105,15 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="4dp"/>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_save"/>
+            <!-- Favorito -->
+            <ImageButton
+                android:id="@+id/btnFavoritar"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_bookmark"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/favoritar"
+                android:tint="#FFD600"/>
             <TextView
                 android:id="@+id/textFavoritos"
                 android:layout_width="wrap_content"

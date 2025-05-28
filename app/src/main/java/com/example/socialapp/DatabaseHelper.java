@@ -126,15 +126,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
+                int postId = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                int comentarios = contarComentarios(postId);
+                int curtidas = contarCurtidas(postId);
+                int favoritos = contarFavoritos(postId);
+
                 Post post = new Post(
-                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),            // ID do post
+                        postId, // ID do post
                         cursor.getInt(cursor.getColumnIndexOrThrow("idUsuario")),      // ID do usuário que postou
                         cursor.getString(cursor.getColumnIndexOrThrow("nome")),        // Nome do autor
                         cursor.getString(cursor.getColumnIndexOrThrow("conteudo")),    // Conteúdo do post
                         R.drawable.ic_launcher_background,                            // Imagem (você pode trocar depois)
-                        0, // Comentários (não estamos buscando ainda)
-                        0, // Curtidas
-                        0  // Favoritos
+                        comentarios, // Comentários
+                        curtidas,    // Curtidas
+                        favoritos    // Favoritos
                 );
                 postList.add(post);
             } while (cursor.moveToNext());
@@ -282,6 +287,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int contarFavoritos(int idPostagem) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM favoritos WHERE idPostagem = ?", new String[]{String.valueOf(idPostagem)});
+        int count = 0;
+        if (cursor.moveToFirst()) count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    // Contar comentários
+    public int contarComentarios(int idPostagem) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM comentarios WHERE idPostagem = ?", new String[]{String.valueOf(idPostagem)});
         int count = 0;
         if (cursor.moveToFirst()) count = cursor.getInt(0);
         cursor.close();
