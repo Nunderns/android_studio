@@ -10,12 +10,22 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Autor + Três pontinhos -->
+        <!-- Autor com avatar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/imgAvatarAutor"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_user_avatar"
+                android:background="@drawable/rounded_button_outline"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="12dp"/>
 
             <TextView
                 android:id="@+id/txtAutorDetail"
@@ -25,7 +35,7 @@
                 android:text="@string/autor"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:textColor="#000000"/>
+                android:textColor="#1976D2"/>
 
             <ImageView
                 android:id="@+id/btnMaisOpcoes"
@@ -36,15 +46,23 @@
                 android:visibility="gone"/>
         </LinearLayout>
 
+        <!-- Linha divisória -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="16dp"/>
+
         <!-- Conteúdo -->
         <TextView
             android:id="@+id/txtConteudoDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/conteudo_do_post"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:layout_marginTop="8dp"
-            android:textColor="#000000"/>
+            android:textColor="#222222"
+            android:layout_marginBottom="12dp"/>
 
         <!-- Imagem -->
         <ImageView
@@ -55,38 +73,112 @@
             android:scaleType="centerCrop"
             android:visibility="gone"
             android:contentDescription="@string/descricao_imagem_post"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Linha divisória -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Contadores -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="24dp">
+            android:gravity="center"
+            android:layout_marginTop="8dp">
 
-            <TextView
-                android:id="@+id/txtComentariosDetail"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/comentarios"
-                android:layout_marginEnd="24dp"
-                android:textColor="#555555"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/txtComentariosDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comentarios"
+                    android:textColor="#555555"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtCurtidasDetail"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/curtidas"
-                android:layout_marginEnd="24dp"
-                android:textColor="#555555"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/txtCurtidasDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/curtidas"
+                    android:textColor="#555555"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtFavoritosDetail"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/favoritos"
-                android:textColor="#555555"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/txtFavoritosDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/favoritos"
+                    android:textColor="#555555"
+                    android:textSize="14sp"/>
+            </LinearLayout>
         </LinearLayout>
+
+        <!-- Caixa de comentário -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp"
+            android:background="#F5F5F5"
+            android:padding="8dp"
+            android:elevation="2dp">
+
+            <EditText
+                android:id="@+id/editComentario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Escreva um comentário..."
+                android:background="@android:color/transparent"
+                android:textColor="#222"
+                android:textSize="15sp"
+                android:padding="8dp"/>
+
+            <ImageButton
+                android:id="@+id/btnEnviarComentario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_send"
+                android:background="@android:color/transparent"
+                android:contentDescription="Enviar comentário"
+                android:tint="#1976D2"
+                android:padding="8dp"/>
+        </LinearLayout>
+
+        <!-- Lista de comentários -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerComentarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 </ScrollView>

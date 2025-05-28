@@ -50,15 +50,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(idUsuario2) REFERENCES usuarios(id)" +
                 ");");
 
-        // Tabela de Comentários
+        // Tabela de Comentários (agora com idComentarioPai)
         db.execSQL("CREATE TABLE comentarios (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "idPostagem INTEGER," +
                 "idUsuario INTEGER," +
                 "comentario TEXT," +
                 "data TEXT," +
+                "idComentarioPai INTEGER," +
                 "FOREIGN KEY(idPostagem) REFERENCES postagens(id)," +
-                "FOREIGN KEY(idUsuario) REFERENCES usuarios(id)" +
+                "FOREIGN KEY(idUsuario) REFERENCES usuarios(id)," +
+                "FOREIGN KEY(idComentarioPai) REFERENCES comentarios(id)" +
                 ");");
 
         // Tabela de Curtidas
@@ -132,6 +134,74 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return postList;
+    }
+
+    // Buscar usuário pelo nome
+    public Cursor buscarUsuarioPorNome(String nome) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM usuarios WHERE nome = ?", new String[]{nome});
+    }
+
+    // Buscar posts de um usuário específico
+    public List<Post> buscarPostsPorAutor(String nomeAutor) {
+        List<Post> postList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+            "SELECT p.id, p.idUsuario, u.nome, p.conteudo, p.imagem, p.data " +
+            "FROM postagens p " +
+            "INNER JOIN usuarios u ON p.idUsuario = u.id " +
+            "WHERE u.nome = ? " +
+            "ORDER BY p.id DESC",
+            new String[]{nomeAutor}
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                Post post = new Post(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("idUsuario")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("nome")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("conteudo")),
+                    R.drawable.ic_launcher_background,
+                    0, 0, 0
+                );
+                postList.add(post);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return postList;
+    }
+
+    // Inserir comentário (pode ser resposta)
+    public void inserirComentario(int idPostagem, int idUsuario, String comentario, String data, Integer idComentarioPai) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("idPostagem", idPostagem);
+        values.put("idUsuario", idUsuario);
+        values.put("comentario", comentario);
+        values.put("data", data);
+        if (idComentarioPai != null) {
+            values.put("idComentarioPai", idComentarioPai);
+        } else {
+            values.putNull("idComentarioPai");
+        }
+        db.insert("comentarios", null, values);
+        db.close();
+    }
+
+    // Buscar comentários de um post (apenas os principais, sem pai)
+    public Cursor buscarComentariosPrincipais(int idPostagem) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT c.*, u.nome FROM comentarios c INNER JOIN usuarios u ON c.idUsuario = u.id WHERE c.idPostagem = ? AND c.idComentarioPai IS NULL ORDER BY c.data ASC", new String[]{String.valueOf(idPostagem)});
+    }
+
+    // Buscar respostas de um comentário
+    public Cursor buscarRespostasComentario(int idComentarioPai) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT c.*, u.nome FROM comentarios c INNER JOIN usuarios u ON c.idUsuario = u.id WHERE c.idComentarioPai = ? ORDER BY c.data ASC", new String[]{String.valueOf(idComentarioPai)});
     }
 
 }

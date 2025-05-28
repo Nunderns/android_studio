@@ -11,6 +11,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.EditText;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class PostDetailActivity extends AppCompatActivity {
 
@@ -19,6 +26,13 @@ public class PostDetailActivity extends AppCompatActivity {
     private int idPost;
     private int idUsuarioPost;
     private int idUsuarioAtual = 1; // Supondo usuário logado = id 1 (pode ser variável depois)
+    private RecyclerView recyclerComentarios;
+    private ComentarioAdapter comentarioAdapter;
+    private List<Comentario> listaComentarios = new ArrayList<>();
+    private DatabaseHelper dbHelper;
+    private EditText editComentario;
+    private ImageView btnEnviarComentario;
+    private Integer idComentarioPaiRespondendo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +46,19 @@ public class PostDetailActivity extends AppCompatActivity {
         txtFavoritosDetail = findViewById(R.id.txtFavoritosDetail);
         imgPostDetail = findViewById(R.id.imgPostDetail);
         btnMaisOpcoes = findViewById(R.id.btnMaisOpcoes);
+        recyclerComentarios = findViewById(R.id.recyclerComentarios);
+        editComentario = findViewById(R.id.editComentario);
+        btnEnviarComentario = findViewById(R.id.btnEnviarComentario);
+        dbHelper = new DatabaseHelper(this);
+
+        recyclerComentarios.setLayoutManager(new LinearLayoutManager(this));
+        comentarioAdapter = new ComentarioAdapter(this, listaComentarios, comentario -> {
+            // Ao clicar em responder
+            idComentarioPaiRespondendo = comentario.getId();
+            editComentario.setHint("Respondendo a " + comentario.getNomeAutor());
+            editComentario.requestFocus();
+        });
+        recyclerComentarios.setAdapter(comentarioAdapter);
 
         // Dados do post recebidos
         String autor = getIntent().getStringExtra("autor");
@@ -57,12 +84,15 @@ public class PostDetailActivity extends AppCompatActivity {
             imgPostDetail.setVisibility(View.GONE);
         }
 
-
         // Mostrar botão três pontinhos se for dono
         if (idUsuarioAtual == idUsuarioPost) {
             btnMaisOpcoes.setVisibility(View.VISIBLE);
             btnMaisOpcoes.setOnClickListener(v -> abrirMenuOpcoes());
         }
+
+        carregarComentarios();
+
+        btnEnviarComentario.setOnClickListener(v -> enviarComentario());
     }
 
     private void abrirMenuOpcoes() {
@@ -96,5 +126,52 @@ public class PostDetailActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, getString(R.string.erro_excluir), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void carregarComentarios() {
+        listaComentarios.clear();
+        // Buscar comentários principais
+        try (android.database.Cursor cursor = dbHelper.buscarComentariosPrincipais(idPost)) {
+            while (cursor.moveToNext()) {
+                Comentario comentario = new Comentario(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("idPostagem")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("idUsuario")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("nome")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("comentario")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("data")),
+                        null
+                );
+                listaComentarios.add(comentario);
+                // Buscar respostas
+                try (android.database.Cursor c2 = dbHelper.buscarRespostasComentario(comentario.getId())) {
+                    while (c2.moveToNext()) {
+                        Comentario resposta = new Comentario(
+                                c2.getInt(c2.getColumnIndexOrThrow("id")),
+                                c2.getInt(c2.getColumnIndexOrThrow("idPostagem")),
+                                c2.getInt(c2.getColumnIndexOrThrow("idUsuario")),
+                                c2.getString(c2.getColumnIndexOrThrow("nome")),
+                                c2.getString(c2.getColumnIndexOrThrow("comentario")),
+                                c2.getString(c2.getColumnIndexOrThrow("data")),
+                                comentario.getId()
+                        );
+                        listaComentarios.add(resposta);
+                    }
+                }
+            }
+        }
+        comentarioAdapter.notifyDataSetChanged();
+    }
+
+    private void enviarComentario() {
+        String texto = editComentario.getText().toString().trim();
+        if (texto.isEmpty()) return;
+        // Supondo que idUsuarioAtual está definido corretamente
+        String data = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
+        dbHelper.inserirComentario(idPost, idUsuarioAtual, texto, data, idComentarioPaiRespondendo);
+        editComentario.setText("");
+        editComentario.setHint("Escreva um comentário...");
+        idComentarioPaiRespondendo = null;
+        carregarComentarios();
     }
 }
