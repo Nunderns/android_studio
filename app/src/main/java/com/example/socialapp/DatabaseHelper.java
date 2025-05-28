@@ -71,6 +71,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(idPostagem) REFERENCES postagens(id)," +
                 "FOREIGN KEY(idUsuario) REFERENCES usuarios(id)" +
                 ");");
+
+        // Tabela de Favoritos
+        db.execSQL("CREATE TABLE favoritos (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "idPostagem INTEGER," +
+                "idUsuario INTEGER," +
+                "FOREIGN KEY(idPostagem) REFERENCES postagens(id)," +
+                "FOREIGN KEY(idUsuario) REFERENCES usuarios(id)" +
+                ");");
     }
 
     @Override
