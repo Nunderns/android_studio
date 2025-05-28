@@ -95,13 +95,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:gravity="center">
+                <ImageView
+                    android:id="@+id/imgCommentDetail"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_comment"
+                    android:contentDescription="Comentários"
+                    android:tint="#1976D2"
+                    android:layout_marginEnd="4dp"/>
                 <TextView
                     android:id="@+id/txtComentariosDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/comentarios"
+                    android:text="0"
                     android:textColor="#555555"
                     android:textSize="14sp"/>
             </LinearLayout>
@@ -110,13 +118,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:gravity="center">
+                <ImageView
+                    android:id="@+id/imgLikeDetail"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_like"
+                    android:contentDescription="Curtidas"
+                    android:tint="#1976D2"
+                    android:layout_marginEnd="4dp"/>
                 <TextView
                     android:id="@+id/txtCurtidasDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/curtidas"
+                    android:text="0"
                     android:textColor="#555555"
                     android:textSize="14sp"/>
             </LinearLayout>
@@ -125,13 +141,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:gravity="center">
+                <ImageView
+                    android:id="@+id/imgBookmarkDetail"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_bookmark"
+                    android:contentDescription="Favoritos"
+                    android:tint="#1976D2"
+                    android:layout_marginEnd="4dp"/>
                 <TextView
                     android:id="@+id/txtFavoritosDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/favoritos"
+                    android:text="0"
                     android:textColor="#555555"
                     android:textSize="14sp"/>
             </LinearLayout>

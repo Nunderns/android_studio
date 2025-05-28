@@ -204,4 +204,80 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT c.*, u.nome FROM comentarios c INNER JOIN usuarios u ON c.idUsuario = u.id WHERE c.idComentarioPai = ? ORDER BY c.data ASC", new String[]{String.valueOf(idComentarioPai)});
     }
 
+    // Curtir post
+    public void curtirPost(int idPostagem, int idUsuario) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("idPostagem", idPostagem);
+        values.put("idUsuario", idUsuario);
+        db.insert("curtidas", null, values);
+        db.close();
+    }
+
+    // Descurtir post
+    public void descurtirPost(int idPostagem, int idUsuario) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("curtidas", "idPostagem = ? AND idUsuario = ?", new String[]{String.valueOf(idPostagem), String.valueOf(idUsuario)});
+        db.close();
+    }
+
+    // Verificar se usuário já curtiu
+    public boolean usuarioCurtiu(int idPostagem, int idUsuario) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT 1 FROM curtidas WHERE idPostagem = ? AND idUsuario = ?", new String[]{String.valueOf(idPostagem), String.valueOf(idUsuario)});
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+    // Contar curtidas
+    public int contarCurtidas(int idPostagem) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM curtidas WHERE idPostagem = ?", new String[]{String.valueOf(idPostagem)});
+        int count = 0;
+        if (cursor.moveToFirst()) count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    // Favoritar post
+    public void favoritarPost(int idPostagem, int idUsuario) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("idPostagem", idPostagem);
+        values.put("idUsuario", idUsuario);
+        db.insert("favoritos", null, values);
+        db.close();
+    }
+
+    // Desfavoritar post
+    public void desfavoritarPost(int idPostagem, int idUsuario) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("favoritos", "idPostagem = ? AND idUsuario = ?", new String[]{String.valueOf(idPostagem), String.valueOf(idUsuario)});
+        db.close();
+    }
+
+    // Verificar se usuário já favoritou
+    public boolean usuarioFavoritou(int idPostagem, int idUsuario) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT 1 FROM favoritos WHERE idPostagem = ? AND idUsuario = ?", new String[]{String.valueOf(idPostagem), String.valueOf(idUsuario)});
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+    // Contar favoritos
+    public int contarFavoritos(int idPostagem) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM favoritos WHERE idPostagem = ?", new String[]{String.valueOf(idPostagem)});
+        int count = 0;
+        if (cursor.moveToFirst()) count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
 }

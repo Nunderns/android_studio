@@ -22,7 +22,7 @@ import java.util.List;
 public class PostDetailActivity extends AppCompatActivity {
 
     private TextView txtAutorDetail, txtConteudoDetail, txtComentariosDetail, txtCurtidasDetail, txtFavoritosDetail;
-    private ImageView imgPostDetail, btnMaisOpcoes;
+    private ImageView imgPostDetail, btnMaisOpcoes, imgLike, imgBookmark, imgComment;
     private int idPost;
     private int idUsuarioPost;
     private int idUsuarioAtual = 1; // Supondo usuário logado = id 1 (pode ser variável depois)
@@ -33,6 +33,8 @@ public class PostDetailActivity extends AppCompatActivity {
     private EditText editComentario;
     private ImageView btnEnviarComentario;
     private Integer idComentarioPaiRespondendo = null;
+    private boolean usuarioCurtiu = false;
+    private boolean usuarioFavoritou = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +52,12 @@ public class PostDetailActivity extends AppCompatActivity {
         editComentario = findViewById(R.id.editComentario);
         btnEnviarComentario = findViewById(R.id.btnEnviarComentario);
         dbHelper = new DatabaseHelper(this);
+        imgLike = findViewById(R.id.imgLikeDetail);
+        imgBookmark = findViewById(R.id.imgBookmarkDetail);
+        imgComment = findViewById(R.id.imgCommentDetail);
 
         recyclerComentarios.setLayoutManager(new LinearLayoutManager(this));
         comentarioAdapter = new ComentarioAdapter(this, listaComentarios, comentario -> {
-            // Ao clicar em responder
             idComentarioPaiRespondendo = comentario.getId();
             editComentario.setHint("Respondendo a " + comentario.getNomeAutor());
             editComentario.requestFocus();
@@ -91,8 +95,18 @@ public class PostDetailActivity extends AppCompatActivity {
         }
 
         carregarComentarios();
+        atualizarContadores();
+        atualizarEstadoLikeFavorito();
 
         btnEnviarComentario.setOnClickListener(v -> enviarComentario());
+        imgLike.setOnClickListener(v -> alternarLike());
+        imgBookmark.setOnClickListener(v -> alternarFavorito());
+        imgComment.setOnClickListener(v -> {
+            editComentario.requestFocus();
+            recyclerComentarios.postDelayed(() -> {
+                recyclerComentarios.smoothScrollToPosition(listaComentarios.size());
+            }, 200);
+        });
     }
 
     private void abrirMenuOpcoes() {
@@ -173,5 +187,41 @@ public class PostDetailActivity extends AppCompatActivity {
         editComentario.setHint("Escreva um comentário...");
         idComentarioPaiRespondendo = null;
         carregarComentarios();
+    }
+
+    private void atualizarContadores() {
+        int curtidas = dbHelper.contarCurtidas(idPost);
+        int favoritos = dbHelper.contarFavoritos(idPost);
+        int comentarios = listaComentarios.size();
+        txtCurtidasDetail.setText(String.valueOf(curtidas));
+        txtFavoritosDetail.setText(String.valueOf(favoritos));
+        txtComentariosDetail.setText(String.valueOf(comentarios));
+    }
+
+    private void atualizarEstadoLikeFavorito() {
+        usuarioCurtiu = dbHelper.usuarioCurtiu(idPost, idUsuarioAtual);
+        usuarioFavoritou = dbHelper.usuarioFavoritou(idPost, idUsuarioAtual);
+        imgLike.setImageResource(usuarioCurtiu ? R.drawable.ic_like_filled : R.drawable.ic_like);
+        imgBookmark.setImageResource(usuarioFavoritou ? R.drawable.ic_bookmark_filled : R.drawable.ic_bookmark);
+    }
+
+    private void alternarLike() {
+        if (usuarioCurtiu) {
+            dbHelper.descurtirPost(idPost, idUsuarioAtual);
+        } else {
+            dbHelper.curtirPost(idPost, idUsuarioAtual);
+        }
+        atualizarContadores();
+        atualizarEstadoLikeFavorito();
+    }
+
+    private void alternarFavorito() {
+        if (usuarioFavoritou) {
+            dbHelper.desfavoritarPost(idPost, idUsuarioAtual);
+        } else {
+            dbHelper.favoritarPost(idPost, idUsuarioAtual);
+        }
+        atualizarContadores();
+        atualizarEstadoLikeFavorito();
     }
 }
