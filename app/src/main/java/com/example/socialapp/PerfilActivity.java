@@ -37,9 +37,6 @@ public class PerfilActivity extends AppCompatActivity {
             txtNome.setText(cursor.getString(cursor.getColumnIndexOrThrow("nome")));
             txtEmail.setText(cursor.getString(cursor.getColumnIndexOrThrow("email")));
             txtBio.setText(cursor.getString(cursor.getColumnIndexOrThrow("bio")));
-            // Se tiver foto, pode carregar com Glide/Picasso, aqui só exemplo:
-            // String foto = cursor.getString(cursor.getColumnIndexOrThrow("fotoPerfil"));
-            // if (!foto.isEmpty()) { ... }
         }
         cursor.close();
     }

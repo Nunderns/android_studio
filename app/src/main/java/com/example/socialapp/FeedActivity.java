@@ -58,9 +58,9 @@ public class FeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed); // DEVE vir antes
+        setContentView(R.layout.activity_feed);
 
-        ImageView menuIcon = findViewById(R.id.menuIcon); // Agora sim
+        ImageView menuIcon = findViewById(R.id.menuIcon);
         menuIcon.setOnClickListener(v -> showPopupMenu(v));
 
         dbHelper = new DatabaseHelper(this);
@@ -114,9 +114,9 @@ public class FeedActivity extends AppCompatActivity {
             String conteudo = data.getStringExtra("conteudo");
 
             if (conteudo != null && !conteudo.isEmpty()) {
-                // Recupera o ID do usuário logado via SharedPreferences
+
                 SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
-                int idUsuario = prefs.getInt("user_id", -1); // ✅ Aqui está certo agora
+                int idUsuario = prefs.getInt("user_id", -1);
 
                 if (idUsuario == -1) {
                     Toast.makeText(this, "Erro: usuário não está logado.", Toast.LENGTH_SHORT).show();
@@ -164,10 +164,7 @@ public class FeedActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_logout) {
-            // Aqui você pode fazer logout real (ex: FirebaseAuth.getInstance().signOut())
             Toast.makeText(this, "Saindo da conta...", Toast.LENGTH_SHORT).show();
-
-            // Por exemplo, redirecionar para LoginActivity
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

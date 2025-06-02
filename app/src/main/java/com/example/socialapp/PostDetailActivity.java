@@ -25,7 +25,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private ImageView imgPostDetail, btnMaisOpcoes, imgLike, imgBookmark, imgComment;
     private int idPost;
     private int idUsuarioPost;
-    private int idUsuarioAtual = 1; // Supondo usuário logado = id 1 (pode ser variável depois)
+    private int idUsuarioAtual = 1;
     private RecyclerView recyclerComentarios;
     private ComentarioAdapter comentarioAdapter;
     private List<Comentario> listaComentarios = new ArrayList<>();

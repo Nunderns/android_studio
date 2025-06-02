@@ -26,7 +26,6 @@ public class CreatePostActivity extends AppCompatActivity {
             String conteudo = editConteudo.getText().toString().trim();
 
             if (!conteudo.isEmpty()) {
-                // Devolver o texto para o FeedActivity
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("conteudo", conteudo);
                 setResult(RESULT_OK, resultIntent);

@@ -31,6 +31,4 @@
         android:textStyle="bold"
         android:textColor="#000000"/>
 
-    <!-- Você pode adicionar outros elementos aqui, como um botão de mensagem -->
-
 </LinearLayout>

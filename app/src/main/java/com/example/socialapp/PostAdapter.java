@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     private final List<Post> postList;
-    private final Context context; // Corrigido: precisamos do contexto para abrir Activity
+    private final Context context;
 
     public PostAdapter(Context context, List<Post> postList) {
         this.context = context;
@@ -49,7 +49,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.txtConteudo.setText(post.getConteudo());
         holder.imgPost.setImageResource(post.getImagemResId());
 
-        // Aqui sim colocamos o click no lugar certo:
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PostDetailActivity.class);
             intent.putExtra("autor", post.getAutor());

@@ -1,7 +1,7 @@
 package com.example.socialapp;
 
 public class Post {
-    private int id;           // ID do post
+    private int id;     
     private int idUsuario;    // ID do usuário que criou o post
     private String autor;
     private String conteudo;

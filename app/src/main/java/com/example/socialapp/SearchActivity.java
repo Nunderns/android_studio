@@ -51,16 +51,13 @@ public class SearchActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        // 2. Buscar posts do usuário
         List<Post> posts = dbHelper.buscarPostsPorAutor(query);
         if (!posts.isEmpty()) {
             postAdapter = new PostAdapter(this, posts);
             recyclerView.setAdapter(postAdapter);
         } else {
-            // Nenhum resultado encontrado, pode exibir uma mensagem ou limpar a lista
             postAdapter = new PostAdapter(this, posts);
             recyclerView.setAdapter(postAdapter);
-            // Ou exibir um TextView de "Nada encontrado"
         }
     }
 }

@@ -11,14 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private DatabaseHelper dbHelper; // Banco de dados
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        dbHelper = new DatabaseHelper(this); // Instancia o DatabaseHelper
+        dbHelper = new DatabaseHelper(this);
 
         EditText editNome = findViewById(R.id.editNome);
         EditText editEmail = findViewById(R.id.editEmail);
@@ -31,13 +31,12 @@ public class RegisterActivity extends AppCompatActivity {
             String senha = editSenha.getText().toString();
 
             if (!nome.isEmpty() && !email.isEmpty() && !senha.isEmpty()) {
-                // Grava no banco de dados
                 ContentValues values = new ContentValues();
                 values.put("nome", nome);
                 values.put("email", email);
                 values.put("senha", senha);
-                values.put("bio", ""); // Opcional, vazio por enquanto
-                values.put("fotoPerfil", ""); // Opcional, vazio por enquanto
+                values.put("bio", "");
+                values.put("fotoPerfil", "");
 
                 long id = dbHelper.getWritableDatabase().insert("usuarios", null, values);
 
