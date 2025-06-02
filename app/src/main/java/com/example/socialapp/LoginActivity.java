@@ -22,20 +22,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Verificar se o usuário já está logado
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
         int userId = prefs.getInt("user_id", -1);
 
         if (userId != -1) {
-            // Usuário já está logado, vá direto para a tela principal (MainActivity)
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            finish(); // Finaliza a tela de login para que o usuário não possa voltar
-            return; // Interrompe a execução do restante do onCreate
+            finish();
+            return;
         }
-
-        // Se não estiver logado, configure a tela de login normalmente
         setContentView(R.layout.activity_login);
 
         dbHelper = new DatabaseHelper(this);
@@ -56,14 +51,13 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     int userId = dbHelper.verificarLogin(email, senha);
                     if (userId != -1) {
-                        // Login bem-sucedido, salve a sessão e vá para a tela principal
-                        SharedPreferences.Editor editor = prefs.edit(); // Use as prefs já obtidas
+                        SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt("user_id", userId);
                         editor.apply();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
-                        finish(); // Finaliza a tela de login
+                        finish();
                     } else {
                         Toast.makeText(LoginActivity.this, "Email ou senha incorretos", Toast.LENGTH_SHORT).show();
                     }
@@ -79,17 +73,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-    // Adicione este método ao seu DatabaseHelper se ainda não existir
-    // public int verificarLogin(String email, String senha) {
-    //     SQLiteDatabase db = this.getReadableDatabase();
-    //     Cursor cursor = db.rawQuery("SELECT id FROM usuarios WHERE email = ? AND senha = ?", new String[]{email, senha});
-    //     int userId = -1;
-    //     if (cursor.moveToFirst()) {
-    //         userId = cursor.getInt(0);
-    //     }
-    //     cursor.close();
-    //     db.close();
-    //     return userId;
-    // }
 }

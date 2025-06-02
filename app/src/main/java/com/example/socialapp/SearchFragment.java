@@ -27,33 +27,28 @@ public class SearchFragment extends Fragment {
     private List<Post> searchResultsList;
 
     public SearchFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        // Inicializa o dbHelper
         dbHelper = new DatabaseHelper(getContext());
 
-        // Encontra as views do layout
         editTextSearch = view.findViewById(R.id.editTextSearch);
         buttonSearch = view.findViewById(R.id.buttonSearch);
         recyclerSearchResults = view.findViewById(R.id.recyclerSearchResults);
 
-        // Configura o RecyclerView
         recyclerSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
-        searchResultsList = new ArrayList<>(); // Inicializa a lista de resultados
-        adapter = new PostAdapter(getContext(), searchResultsList); // Use getContext()
+        searchResultsList = new ArrayList<>();
+        adapter = new PostAdapter(getContext(), searchResultsList);
         recyclerSearchResults.setAdapter(adapter);
 
-        // Listener para o botão de busca
         buttonSearch.setOnClickListener(v -> performSearch());
 
-        // Listener para o "Enter" no teclado do EditText
         editTextSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 performSearch();
@@ -72,25 +67,14 @@ public class SearchFragment extends Fragment {
             return;
         }
 
-        // Exemplo: Buscar posts pelo nome do autor
-        // Você pode expandir essa lógica para buscar em outros campos ou em mais tabelas
-        searchResultsList.clear(); // Limpa resultados anteriores
-        List<Post> postsFound = dbHelper.buscarPostsPorAutor(query); // Use o método do DatabaseHelper
+        searchResultsList.clear();
+        List<Post> postsFound = dbHelper.buscarPostsPorAutor(query);
         searchResultsList.addAll(postsFound);
 
-        adapter.notifyDataSetChanged(); // Notifica o adapter que os dados mudaram
+        adapter.notifyDataSetChanged();
 
         if (searchResultsList.isEmpty()) {
             Toast.makeText(getContext(), "Nenhum resultado encontrado", Toast.LENGTH_SHORT).show();
         }
     }
-
-    // Se precisar buscar usuários, você pode adicionar um método similar:
-    /*
-    private void searchUsers(String query) {
-        // Implementar lógica de busca de usuários aqui
-        // ... chamar dbHelper.buscarUsuarioPorNome(query) por exemplo ...
-        // ... atualizar um adapter diferente ou uma lista combinada ...
-    }
-    */
 }

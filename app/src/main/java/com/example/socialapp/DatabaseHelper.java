@@ -101,7 +101,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // Função para inserir um post novo
     public void inserirPost(int idUsuario, String conteudo, String imagem, String data) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -113,7 +112,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Função para buscar todos os posts (Feed)
     public List<Post> buscarTodosPosts() {
         List<Post> postList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -191,7 +189,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return postList;
     }
 
-    // Inserir comentário (pode ser resposta)
     public void inserirComentario(int idPostagem, int idUsuario, String comentario, String data, Integer idComentarioPai) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -208,19 +205,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Buscar comentários de um post (apenas os principais, sem pai)
     public Cursor buscarComentariosPrincipais(int idPostagem) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT c.*, u.nome FROM comentarios c INNER JOIN usuarios u ON c.idUsuario = u.id WHERE c.idPostagem = ? AND c.idComentarioPai IS NULL ORDER BY c.data ASC", new String[]{String.valueOf(idPostagem)});
     }
 
-    // Buscar respostas de um comentário
     public Cursor buscarRespostasComentario(int idComentarioPai) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT c.*, u.nome FROM comentarios c INNER JOIN usuarios u ON c.idUsuario = u.id WHERE c.idComentarioPai = ? ORDER BY c.data ASC", new String[]{String.valueOf(idComentarioPai)});
     }
 
-    // Curtir post
     public void curtirPost(int idPostagem, int idUsuario) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -230,14 +224,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Descurtir post
     public void descurtirPost(int idPostagem, int idUsuario) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("curtidas", "idPostagem = ? AND idUsuario = ?", new String[]{String.valueOf(idPostagem), String.valueOf(idUsuario)});
         db.close();
     }
 
-    // Verificar se usuário já curtiu
     public boolean usuarioCurtiu(int idPostagem, int idUsuario) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT 1 FROM curtidas WHERE idPostagem = ? AND idUsuario = ?", new String[]{String.valueOf(idPostagem), String.valueOf(idUsuario)});
@@ -296,7 +288,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // Contar comentários
     public int contarComentarios(int idPostagem) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM comentarios WHERE idPostagem = ?", new String[]{String.valueOf(idPostagem)});
@@ -307,7 +298,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // Método para verificar o login do usuário
     public int verificarLogin(String email, String senha) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT id FROM usuarios WHERE email = ? AND senha = ?", new String[]{email, senha});
@@ -320,18 +310,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return userId;
     }
 
-    // Método para buscar a lista de amigos de um usuário
     public List<User> buscarAmigosDoUsuario(int idUsuario) {
         List<User> amigosList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Consulta para buscar usuários que são amigos do idUsuario
-        // Busca em idUsuario1 ou idUsuario2 onde o status é 'aceito'
         String query = "SELECT u.id, u.nome, u.fotoPerfil FROM usuarios u " +
                        "INNER JOIN amizades a ON " +
                        "(a.idUsuario1 = u.id OR a.idUsuario2 = u.id) " +
                        "WHERE (a.idUsuario1 = ? OR a.idUsuario2 = ?) " +
-                       "AND a.status = 'aceito' AND u.id != ?"; // Exclui o próprio usuário
+                       "AND a.status = 'aceito' AND u.id != ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(idUsuario), String.valueOf(idUsuario), String.valueOf(idUsuario)});
 
@@ -341,7 +328,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 User amigo = new User(
                         cursor.getInt(cursor.getColumnIndexOrThrow("id")),
                         cursor.getString(cursor.getColumnIndexOrThrow("nome")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("fotoPerfil")) // Ou use um resource ID padrão
+                        cursor.getString(cursor.getColumnIndexOrThrow("fotoPerfil"))
                 );
                 amigosList.add(amigo);
             } while (cursor.moveToNext());
