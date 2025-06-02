@@ -16,7 +16,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
 
     private List<User> friendList;
     private Context context;
-    // Opcional: Adicionar um listener para cliques nos itens
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -43,17 +42,9 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
     public void onBindViewHolder(@NonNull FriendViewHolder holder, int position) {
         User currentFriend = friendList.get(position);
 
-        // Define o nome do amigo
         holder.txtFriendName.setText(currentFriend.getNome());
+        holder.imgFriendAvatar.setImageResource(R.drawable.ic_user_avatar);
 
-        // Define a foto de perfil (se a User class tiver a URL ou resource ID)
-        // Exemplo: Se fotoPerfil for um caminho de arquivo ou URL, você precisaria de uma biblioteca como Glide ou Picasso
-        // Se for um resource ID (int), use:
-        // holder.imgFriendAvatar.setImageResource(currentFriend.getFotoPerfil());
-        // Por enquanto, vamos usar um ícone padrão
-        holder.imgFriendAvatar.setImageResource(R.drawable.ic_user_avatar); // Use seu ícone padrão aqui
-
-        // Configura o listener de clique (opcional)
         if (listener != null) {
             holder.itemView.setOnClickListener(v -> {
                 listener.onItemClick(currentFriend);
@@ -77,7 +68,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
         }
     }
 
-    // Método para atualizar a lista de amigos no adapter
     public void updateFriendList(List<User> newList) {
         friendList.clear();
         friendList.addAll(newList);

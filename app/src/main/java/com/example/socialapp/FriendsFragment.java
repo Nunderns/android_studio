@@ -23,42 +23,30 @@ public class FriendsFragment extends Fragment {
     private FriendAdapter adapter;
     private List<User> friendList;
     private DatabaseHelper dbHelper;
-    private int currentUserId = -1; // Para armazenar o ID do usuário logado
+    private int currentUserId = -1;
 
     public FriendsFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Infla o layout para este fragment
+
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        // Inicializa o dbHelper
         dbHelper = new DatabaseHelper(getContext());
 
-        // Recupera o ID do usuário logado
         SharedPreferences prefs = getContext().getSharedPreferences("user_session", MODE_PRIVATE);
         currentUserId = prefs.getInt("user_id", -1);
 
-        // Encontra o RecyclerView
         recyclerFriends = view.findViewById(R.id.recyclerFriends);
-
-        // Configura o RecyclerView
         recyclerFriends.setLayoutManager(new LinearLayoutManager(getContext()));
-        friendList = new ArrayList<>(); // Inicializa a lista de amigos
-        adapter = new FriendAdapter(getContext(), friendList); // Use getContext()
+        friendList = new ArrayList<>();
+        adapter = new FriendAdapter(getContext(), friendList);()
         recyclerFriends.setAdapter(adapter);
-
-        // Opcional: Configurar listener de clique no adapter
         adapter.setOnItemClickListener(friend -> {
-            // Implemente o que acontecerá ao clicar em um amigo (ex: ir para o perfil)
+
             Toast.makeText(getContext(), "Clicou em: " + friend.getNome(), Toast.LENGTH_SHORT).show();
-            // Exemplo: Iniciar uma Activity de Perfil
-            // Intent intent = new Intent(getContext(), ProfileActivity.class);
-            // intent.putExtra("user_id", friend.getId());
-            // startActivity(intent);
         });
 
         return view;
@@ -67,7 +55,6 @@ public class FriendsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Carregar a lista de amigos após a view ser criada
         loadFriends();
     }
 
@@ -82,7 +69,4 @@ public class FriendsFragment extends Fragment {
             Toast.makeText(getContext(), "Erro: Usuário não logado.", Toast.LENGTH_SHORT).show();
         }
     }
-
-    // Se precisar de recarregar a lista de amigos (ex: após aceitar um pedido de amizade),
-    // você pode chamar loadFriends() novamente em onResume() ou em outro método apropriado.
 }

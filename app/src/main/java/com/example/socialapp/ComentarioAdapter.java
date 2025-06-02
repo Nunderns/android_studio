@@ -39,9 +39,8 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Co
         holder.txtTexto.setText(comentario.getTexto());
         holder.txtData.setText(comentario.getData());
         holder.btnResponder.setOnClickListener(v -> responderClickListener.onResponderClick(comentario));
-        // Se for resposta, indentar
         if (comentario.getIdComentarioPai() != null) {
-            holder.itemView.setPadding(64, 0, 0, 0); // Indenta respostas
+            holder.itemView.setPadding(64, 0, 0, 0);
         } else {
             holder.itemView.setPadding(0, 0, 0, 0);
         }
