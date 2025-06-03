@@ -42,7 +42,7 @@ public class FriendsFragment extends Fragment {
         recyclerFriends = view.findViewById(R.id.recyclerFriends);
         recyclerFriends.setLayoutManager(new LinearLayoutManager(getContext()));
         friendList = new ArrayList<>();
-        adapter = new FriendAdapter(getContext(), friendList);()
+        adapter = new FriendAdapter(getContext(), friendList);
         recyclerFriends.setAdapter(adapter);
         adapter.setOnItemClickListener(friend -> {
 

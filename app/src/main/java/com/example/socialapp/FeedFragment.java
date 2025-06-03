@@ -74,7 +74,13 @@ public class FeedFragment extends Fragment {
     private void carregarPostsDoBanco() {
         try {
             postList = dbHelper.buscarTodosPosts();
-            adapter = new PostAdapter(getContext(), postList);
+            if (adapter == null) {
+                adapter = new PostAdapter(getContext(), postList);
+                recyclerPosts.setAdapter(adapter);
+            } else {
+                adapter.updatePostsList(postList);
+                adapter.notifyDataSetChanged();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Erro ao carregar posts!", Toast.LENGTH_SHORT).show();
@@ -112,6 +118,8 @@ public class FeedFragment extends Fragment {
 
         if (requestCode == REQUEST_CODE_NOVO_POST && resultCode == RESULT_OK && data != null) {
             String conteudo = data.getStringExtra("conteudo");
+            String imagem = data.getStringExtra("imagem"); // Get the image path if it exists
+            
             if (conteudo != null && !conteudo.isEmpty()) {
                 SharedPreferences prefs = getContext().getSharedPreferences("user_session", MODE_PRIVATE);
                 int idUsuario = prefs.getInt("user_id", -1);
